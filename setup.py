@@ -34,14 +34,14 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     install_requires=[
-        "guacamol"
-        "matplotlib"
-        "torch"
-        "joblib"
-        "numpy"
-        "tqdm"
-        "cython"
-        "nltk"
+        "guacamol",
+        "matplotlib",
+        "torch",
+        "joblib",
+        "numpy",
+        "tqdm",
+        "cython",
+        "nltk",
         "flake8"
     ],
     extras_require={"vcs": VCS_REQUIREMENTS}
