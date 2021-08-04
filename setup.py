@@ -20,7 +20,7 @@ except FileNotFoundError:
     
 match = re.search(
     r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
-    io.open("__init__.py", encoding="utf_8_sig").read(),
+    io.open("algorithms/__init__.py", encoding="utf_8_sig").read(),
 )
 if match is None:
     raise SystemExit("Version number not found.")
