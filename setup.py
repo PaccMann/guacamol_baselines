@@ -20,7 +20,7 @@ except FileNotFoundError:
     
 match = re.search(
     r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
-    io.open("guacamol_baselines/__init__.py", encoding="utf_8_sig").read(),
+    io.open("__init__.py", encoding="utf_8_sig").read(),
 )
 if match is None:
     raise SystemExit("Version number not found.")
@@ -44,6 +44,5 @@ setup(
         "nltk"
         "flake8"
     ],
-    extras_require={"vcs": VCS_REQUIREMENTS},
-    scripts=["bin/convert-transformers-to-sentence-transformers"],
+    extras_require={"vcs": VCS_REQUIREMENTS}
 )
