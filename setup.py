@@ -7,7 +7,7 @@ from setuptools import find_packages, setup
 # ease installation during development
 vcs = re.compile(r"(git|svn|hg|bzr)\+")
 try:
-    with open("requirements.txt") as fp:
+    with open("dockers/requirements.txt") as fp:
         VCS_REQUIREMENTS = [
             str(requirement)
             for requirement in parse_requirements(fp)
