@@ -1,5 +1,6 @@
 import io
 import re
+import os
 
 from pkg_resources import parse_requirements
 from setuptools import find_packages, setup
@@ -46,3 +47,7 @@ setup(
     ],
     extras_require={"vcs": VCS_REQUIREMENTS}
 )
+
+# some baselines require the guacamol dataset to run
+
+os.system("bash fetch_guacamol_dataset.sh")
