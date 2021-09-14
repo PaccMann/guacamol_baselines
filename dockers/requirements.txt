@@ -7,4 +7,4 @@ tqdm==4.26.0
 cython==0.29
 nltk==3.4.5
 flake8==3.5.0
-moses @ git+https://github.com/molecularsets/moses.git@master#egg=moses
+molsets @ git+https://github.com/molecularsets/moses.git@master

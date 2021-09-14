@@ -18,7 +18,7 @@ except FileNotFoundError:
     # requires verbose flags
     print("requirements.txt not found.")
     VCS_REQUIREMENTS = []
-    
+
 match = re.search(
     r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
     io.open("guacamol_baselines/__init__.py", encoding="utf_8_sig").read(),
@@ -30,10 +30,19 @@ __version__ = match.group(1)
 setup(
     name="guacamol_baselines",
     version=__version__,
-    author="Benevolent AI",
+    author="PaccMann Team",
+    description="Baseline model implementations for guacamol benchmark adapted for PaccMann",
     packages=find_packages(),
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
+    url="https://github.com/PaccMann/guacamol_baselines.git",
+    extras_require={"vcs": VCS_REQUIREMENTS},
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires=">=3.7",
     install_requires=[
         "guacamol",
         "matplotlib",
@@ -43,11 +52,9 @@ setup(
         "tqdm",
         "cython",
         "nltk",
-        "flake8"
+        "flake8",
     ],
-    extras_require={"vcs": VCS_REQUIREMENTS}
 )
 
 # some baselines require the guacamol dataset to run
-
 os.system("bash fetch_guacamol_dataset.sh")
