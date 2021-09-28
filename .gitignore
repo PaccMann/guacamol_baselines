@@ -1,6 +1,10 @@
 # Guacamol dataset
 data/
 
+# Model parameters / results output
+*results.json
+*params.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
