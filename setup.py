@@ -1,18 +1,22 @@
 import io
 import re
 import os
+import sys
 import subprocess
+import shutil
 from pkg_resources import parse_requirements
 from setuptools import find_packages, setup
 from setuptools import setup, find_packages, Command
 from setuptools.command.bdist_egg import bdist_egg as _bdist_egg
 from setuptools.command.develop import develop as _develop
 from distutils.command.build import build as _build
+from multiprocessing import cpu_count
 
 SETUP_DIR = os.path.dirname(os.path.abspath(__file__))
+PROCESSES = cpu_count()
+PROCESSES = str(PROCESSES - 1) if (PROCESSES > 1) else '1'
 
-
-class setup_cosifer(Command):
+class fetch_guacamol_datasets(Command):
     """
     Run installation to fetch guacamol datasets.
     """
@@ -29,9 +33,32 @@ class setup_cosifer(Command):
     def run(self):
         """Run installation to fetch guacamol datasets."""
         try:
+            build_directory = os.path.join(SETUP_DIR, 'data')
+            os.makedirs(build_directory, exist_ok=True)
             subprocess.check_call(
-                [os.path.join(SETUP_DIR, "fetch_guacamol_dataset.sh")]
+                [
+                    os.path.join(SETUP_DIR, 'fetch_guacamol_dataset.sh'),
+                    SETUP_DIR, build_directory, sys.executable, PROCESSES
+                ]
             )
+            package_directory = os.path.join(SETUP_DIR, 'guacamol_baselines', 'data')
+            built_files = [
+                os.path.join(build_directory, entry)
+                for entry in os.listdir(build_directory)
+            ]
+            for module_file in built_files:
+                shutil.copy(
+                    module_file,
+                    package_directory
+                )
+            try:
+                if self.develop:
+                    pass
+                else:
+                    raise AttributeError
+            except AttributeError:
+                print('Cleaning up')
+                shutil.rmtree(build_directory, ignore_errors=True)
         except subprocess.CalledProcessError as error:
             raise EnvironmentError(
                 f"Failed to fetch of guacamol datasets dependencies via {error.cmd}."
@@ -41,7 +68,7 @@ class setup_cosifer(Command):
 class build(_build):
     """Build command."""
 
-    sub_commands = [("setup_cosifer", None)] + _build.sub_commands
+    sub_commands = [("fetch_guacamol_datasets", None)] + _build.sub_commands
 
 
 class bdist_egg(_bdist_egg):
@@ -49,7 +76,7 @@ class bdist_egg(_bdist_egg):
 
     def run(self):
         """Run build bdist_egg."""
-        self.run_command("setup_cosifer")
+        self.run_command("fetch_guacamol_datasets")
         _bdist_egg.run(self)
 
 
@@ -58,9 +85,9 @@ class develop(_develop):
 
     def run(self):
         """Run build develop."""
-        setup_cosifer = self.distribution.get_command_obj("setup_cosifer")
+        setup_cosifer = self.distribution.get_command_obj("fetch_guacamol_datasets")
         setup_cosifer.develop = True
-        self.run_command("setup_cosifer")
+        self.run_command("fetch_guacamol_datasets")
         _develop.run(self)
 
 
@@ -105,7 +132,7 @@ setup(
     cmdclass={
         "bdist_egg": bdist_egg,
         "build": build,
-        "setup_cosifer": setup_cosifer,
+        "fetch_guacamol_datasets": fetch_guacamol_datasets,
         "develop": develop,
     },
     install_requires=[
