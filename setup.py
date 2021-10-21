@@ -1,7 +1,6 @@
 import io
 import re
 import os
-import sys
 import subprocess
 import shutil
 from pkg_resources import parse_requirements
@@ -14,13 +13,13 @@ from multiprocessing import cpu_count
 
 SETUP_DIR = os.path.dirname(os.path.abspath(__file__))
 PROCESSES = cpu_count()
-PROCESSES = str(PROCESSES - 1) if (PROCESSES > 1) else '1'
+PROCESSES = str(PROCESSES - 1) if (PROCESSES > 1) else "1"
+
 
 class fetch_guacamol_datasets(Command):
     """
     Run installation to fetch guacamol datasets.
     """
-
 
     def initialize_options(self):
         """Set initialize options."""
@@ -33,37 +32,16 @@ class fetch_guacamol_datasets(Command):
     def run(self):
         """Run installation to fetch guacamol datasets."""
         try:
-            build_directory = os.path.join(SETUP_DIR, 'data')
-            os.makedirs(build_directory, exist_ok=True)
             subprocess.check_call(
                 [
-                    os.path.join(SETUP_DIR, 'fetch_guacamol_dataset.sh'),
-                    SETUP_DIR, build_directory, sys.executable, PROCESSES
+                    os.path.join(SETUP_DIR, 'fetch_guacamol_dataset.sh')
                 ]
             )
-            package_directory = os.path.join(SETUP_DIR, 'guacamol_baselines', 'data')
-            built_files = [
-                os.path.join(build_directory, entry)
-                for entry in os.listdir(build_directory)
-            ]
-            for module_file in built_files:
-                shutil.copy(
-                    module_file,
-                    package_directory
-                )
-            try:
-                if self.develop:
-                    pass
-                else:
-                    raise AttributeError
-            except AttributeError:
-                print('Cleaning up')
-                shutil.rmtree(build_directory, ignore_errors=True)
         except subprocess.CalledProcessError as error:
             raise EnvironmentError(
                 f"Failed to fetch of guacamol datasets dependencies via {error.cmd}."
             )
-
+        
 
 class build(_build):
     """Build command."""
@@ -120,8 +98,8 @@ setup(
     description="Baseline model implementations for guacamol benchmark adapted for PaccMann",
     packages=find_packages(),
     long_description=open("README.md").read(),
-    long_description_content_type="text/markdown",
     url="https://github.com/PaccMann/guacamol_baselines.git",
+    long_description_content_type="text/markdown",
     extras_require={"vcs": VCS_REQUIREMENTS},
     classifiers=[
         "Programming Language :: Python :: 3",
