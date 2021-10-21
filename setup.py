@@ -12,9 +12,6 @@ from distutils.command.build import build as _build
 from multiprocessing import cpu_count
 
 SETUP_DIR = os.path.dirname(os.path.abspath(__file__))
-PROCESSES = cpu_count()
-PROCESSES = str(PROCESSES - 1) if (PROCESSES > 1) else "1"
-
 
 class fetch_guacamol_datasets(Command):
     """
