@@ -2,14 +2,12 @@ import io
 import re
 import os
 import subprocess
-import shutil
 from pkg_resources import parse_requirements
 from setuptools import find_packages, setup
 from setuptools import setup, find_packages, Command
 from setuptools.command.bdist_egg import bdist_egg as _bdist_egg
 from setuptools.command.develop import develop as _develop
 from distutils.command.build import build as _build
-from multiprocessing import cpu_count
 
 SETUP_DIR = os.path.dirname(os.path.abspath(__file__))
 
