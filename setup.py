@@ -8,8 +8,10 @@ from setuptools import setup, find_packages, Command
 from setuptools.command.bdist_egg import bdist_egg as _bdist_egg
 from setuptools.command.develop import develop as _develop
 from distutils.command.build import build as _build
+import shutil
 
 SETUP_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 class fetch_guacamol_datasets(Command):
     """
@@ -27,16 +29,34 @@ class fetch_guacamol_datasets(Command):
     def run(self):
         """Run installation to fetch guacamol datasets."""
         try:
+            build_directory = os.path.join(SETUP_DIR, "build_", "data")
+            package_directory = os.path.join(SETUP_DIR, "guacamol_baselines", "data")
+            os.makedirs(package_directory, exist_ok=True)
+            os.makedirs(build_directory, exist_ok=True)
             subprocess.check_call(
-                [
-                    os.path.join(SETUP_DIR, 'fetch_guacamol_dataset.sh')
-                ]
+                [os.path.join(SETUP_DIR, "fetch_guacamol_dataset.sh"), build_directory]
             )
+            guacamol_built_files = [
+                os.path.join(build_directory, entry)
+                for entry in os.listdir(build_directory)
+                if (entry.startswith("guacamol") and entry.endswith(".smiles"))
+            ]
+
+            for module_file in guacamol_built_files:
+                shutil.copy(module_file, package_directory)
+            try:
+                if self.develop:
+                    pass
+                else:
+                    raise AttributeError
+            except AttributeError:
+                print("Cleaning up")
+                shutil.rmtree(build_directory, ignore_errors=True)
         except subprocess.CalledProcessError as error:
             raise EnvironmentError(
                 f"Failed to fetch of guacamol datasets dependencies via {error.cmd}."
             )
-        
+
 
 class build(_build):
     """Build command."""
@@ -58,8 +78,10 @@ class develop(_develop):
 
     def run(self):
         """Run build develop."""
-        setup_cosifer = self.distribution.get_command_obj("fetch_guacamol_datasets")
-        setup_cosifer.develop = True
+        setup_guacamol_datasets = self.distribution.get_command_obj(
+            "fetch_guacamol_datasets"
+        )
+        setup_guacamol_datasets.develop = True
         self.run_command("fetch_guacamol_datasets")
         _develop.run(self)
 
@@ -92,6 +114,8 @@ setup(
     author="PaccMann Team",
     description="Baseline model implementations for guacamol benchmark adapted for PaccMann",
     packages=find_packages(),
+    package_dir={"guacamol_baselines": "guacamol_baselines"},
+    package_data={"guacamol_baselines": ["data/guacamol*.smiles"]},
     long_description=open("README.md").read(),
     url="https://github.com/PaccMann/guacamol_baselines.git",
     long_description_content_type="text/markdown",
