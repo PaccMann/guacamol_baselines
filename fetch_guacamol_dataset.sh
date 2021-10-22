@@ -1,12 +1,14 @@
 #!/bin/bash -x
 
-mkdir -p build/lib/guacamol_baselines/data
+build_directory=$1
 
-wget https://ndownloader.figshare.com/files/13612745 -O build/lib/guacamol_baselines/data/guacamol_v1_all.smiles
+cd $build_directory
 
-wget https://ndownloader.figshare.com/files/13612760 -O build/lib/guacamol_baselines/data/guacamol_v1_train.smiles
+wget https://ndownloader.figshare.com/files/13612745 -O guacamol_v1_all.smiles
 
-wget https://ndownloader.figshare.com/files/13612766 -O build/lib/guacamol_baselines/data/guacamol_v1_valid.smiles
+wget https://ndownloader.figshare.com/files/13612760 -O guacamol_v1_train.smiles
 
-wget https://ndownloader.figshare.com/files/13612757 -O build/lib/guacamol_baselines/data/guacamol_v1_test.smiles
+wget https://ndownloader.figshare.com/files/13612766 -O guacamol_v1_valid.smiles
+
+wget https://ndownloader.figshare.com/files/13612757 -O guacamol_v1_test.smiles
 
