@@ -1,4 +1,4 @@
-guacamol==0.5.3
+guacamol @ git+https://github.com/PaccMann/guacamol.git@0.5.4
 matplotlib==3.0.2
 torch>=1.0.0
 joblib==0.12.5
