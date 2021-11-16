@@ -7,7 +7,7 @@ from moses.aae import AAE, AAETrainer, get_parser as aae_parser
 from moses.script_utils import add_train_args, read_smiles_csv, set_seed
 from moses.utils import CharVocab
 
-from moses_baselines.common import read_smiles
+from guacamol_baselines.moses_baselines.common import read_smiles
 
 
 def get_parser():

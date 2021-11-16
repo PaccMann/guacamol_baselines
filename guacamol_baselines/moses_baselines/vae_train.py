@@ -8,7 +8,7 @@ from moses.vae.corpus import OneHotCorpus
 from moses.vae.model import VAE
 from moses.vae.trainer import VAETrainer
 
-from moses_baselines.common import read_smiles
+from guacamol_baselines.moses_baselines.common import read_smiles
 
 
 def get_parser():
