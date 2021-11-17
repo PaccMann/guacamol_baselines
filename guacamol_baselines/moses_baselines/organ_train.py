@@ -8,7 +8,7 @@ from moses.script_utils import add_train_args, set_seed, MetricsReward
 from moses.utils import CharVocab
 from multiprocessing import Pool
 
-from .moses_baselines.common import read_smiles
+from .common import read_smiles
 
 lg = rdkit.RDLogger.logger()
 lg.setLevel(rdkit.RDLogger.CRITICAL)

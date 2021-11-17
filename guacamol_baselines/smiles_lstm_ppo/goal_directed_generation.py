@@ -9,7 +9,7 @@ import numpy as np
 from guacamol.assess_goal_directed_generation import assess_goal_directed_generation
 from guacamol.utils.helpers import setup_default_logger
 
-from .smiles_lstm_ppo.ppo_directed_generator import PPODirectedGenerator
+from .ppo_directed_generator import PPODirectedGenerator
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
