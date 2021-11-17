@@ -2,7 +2,7 @@ import os
 import pickle
 from collections import namedtuple
 
-from guacamol_baselines.graph_mcts.analyze_dataset import StatsCalculator
+from .graph_mcts.analyze_dataset import StatsCalculator
 
 Stats = namedtuple(
     "Stats",

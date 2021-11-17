@@ -20,7 +20,7 @@ from guacamol.scoring_function import ScoringFunction
 from guacamol.utils.chemistry import canonicalize
 from guacamol.utils.helpers import setup_default_logger
 
-from guacamol_baselines.graph_mcts.stats import Stats, get_stats_from_pickle, get_stats_from_smiles
+from .graph_mcts.stats import Stats, get_stats_from_pickle, get_stats_from_smiles
 
 rdBase.DisableLog("rdApp.error")
 
