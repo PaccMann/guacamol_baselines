@@ -115,7 +115,7 @@ setup(
     description="Baseline model implementations for guacamol benchmark adapted for PaccMann",
     packages=find_packages(),
     package_dir={"guacamol_baselines": "guacamol_baselines"},
-    package_data={"guacamol_baselines": ["data/guacamol*.smiles"]},
+    package_data={"guacamol_baselines": ["data/guacamol*.smiles","smiles_lstm_hc/pretrained_model/model*.json","smiles_lstm_hc/pretrained_model/model*.pt","graph_mcts/*.p","smiles_lstm_ppo/pretrained_model/model*.json","smiles_lstm_ppo/pretrained_model/model*.pt"]},
     long_description=open("README.md").read(),
     url="https://github.com/PaccMann/guacamol_baselines.git",
     long_description_content_type="text/markdown",
