@@ -3,7 +3,8 @@ from typing import List, Optional
 
 import joblib
 import torch
-
+import pkg_resources
+from os import path
 from guacamol.goal_directed_generator import GoalDirectedGenerator
 from guacamol.scoring_function import ScoringFunction
 from guacamol.utils.chemistry import canonicalize_list, canonicalize
@@ -74,8 +75,10 @@ class SmilesRnnDirectedGenerator(GoalDirectedGenerator):
 
         cuda_available = torch.cuda.is_available()
         device = "cuda" if cuda_available else "cpu"
+        pkg_model_path = pkg_resources.resource_filename("guacamol_baselines", "smiles_lstm_hc/pretrained_model/model_final_0.473.pt")
+        if not self.pretrained_model_path and path.exists(pkg_model_path):
+            self.pretrained_model_path = pkg_model_path
         model_def = Path(self.pretrained_model_path).with_suffix(".json")
-
         model = load_rnn_model(
             model_def, self.pretrained_model_path, device, copy_to_cpu=True
         )

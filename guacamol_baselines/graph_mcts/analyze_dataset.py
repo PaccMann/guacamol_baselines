@@ -3,10 +3,10 @@ import collections
 import datetime
 import logging
 import os
+import pkg_resources
 import pickle
 from time import time
 from typing import List, Tuple, Dict
-
 import numpy as np
 from guacamol.utils.helpers import setup_default_logger
 from rdkit import Chem
@@ -530,23 +530,31 @@ def main():
     rxn_smarts_rings = stats.rxn_smarts_rings()
     rxn_smarts_make_rings = stats.rxn_smarts_make_rings()
     p_rings = stats.ring_probs()
-
-    pickle.dump(size_stats, open(os.path.join(args.output_dir, "size_stats.p"), "wb"))
-    pickle.dump(p_rings, open(os.path.join(args.output_dir, "p_ring.p"), "wb"))
-    pickle.dump(
-        rxn_smarts_rings, open(os.path.join(args.output_dir, "rs_ring.p"), "wb")
-    )
-    pickle.dump(
-        rxn_smarts_make_rings,
-        open(os.path.join(args.output_dir, "rs_make_ring.p"), "wb"),
-    )
-
     p = stats.pair_probs()
     rxn_smarts = stats.rxn_smarts()
-
-    pickle.dump(p, open(os.path.join(args.output_dir, "p1.p"), "wb"))
-    pickle.dump(rxn_smarts, open(os.path.join(args.output_dir, "r_s1.p"), "wb"))
-
+    size_stats_path = None
+    rs_make_king_path = None
+    rs_ring_path = None
+    r_s1_path = None
+    p1_path = None
+    p_ring_path = None
+    try:
+        size_stats_path = pkg_resources.resource_filename("guacamol_baselines", "graph_mcts/size_stats.p")
+        rs_make_king_path = pkg_resources.resource_filename("guacamol_baselines", "graph_mcts/rs_make_ring.p")
+        rs_ring_path = pkg_resources.resource_filename("guacamol_baselines", "graph_mcts/rs_ring.p")
+        r_s1_path = pkg_resources.resource_filename("guacamol_baselines", "graph_mcts/r_s1.p")
+        p1_path = pkg_resources.resource_filename("guacamol_baselines", "graph_mcts/p1.p")
+        p_ring_path = pkg_resources.resource_filename("guacamol_baselines", "graph_mcts/p_ring.p")
+    except Exception:
+        logger.exception(
+            f'failed to load the pickle files from path {os.path.join(args.output_dir)}'
+        )
+    pickle.dump(p_rings, open(p_ring_path, 'wb'))
+    pickle.dump(size_stats, open(size_stats_path, 'wb'))
+    pickle.dump(rxn_smarts_rings, open(rs_ring_path, 'wb'))
+    pickle.dump(rxn_smarts_make_rings, open(rs_make_king_path, 'wb'))
+    pickle.dump(p, open(p1_path, 'wb'))
+    pickle.dump(rxn_smarts, open(r_s1_path, 'wb'))
     print(f"Total time: {str(datetime.timedelta(seconds=int(time() - t0)))} secs")
 
 

@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 
 import torch
-
+import pkg_resources
 from guacamol.assess_distribution_learning import assess_distribution_learning
 from guacamol.utils.helpers import setup_default_logger
 
@@ -40,10 +40,7 @@ if __name__ == "__main__":
         args.output_dir = os.path.dirname(os.path.realpath(__file__))
 
     if args.model_path is None:
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        args.model_path = os.path.join(
-            dir_path, "pretrained_model", "model_final_0.473.pt"
-        )
+        args.model_path = pkg_resources.resource_filename("guacamol_baselines", "smiles_lstm_hc/pretrained_model/model_final_0.473.pt")
 
     model_def = Path(args.model_path).with_suffix(".json")
     model = load_rnn_model(model_def, args.model_path, device, copy_to_cpu=True)

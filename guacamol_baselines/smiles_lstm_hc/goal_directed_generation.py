@@ -1,6 +1,6 @@
 import argparse
 import os
-
+import pkg_resources
 from guacamol.assess_goal_directed_generation import assess_goal_directed_generation
 from guacamol.utils.helpers import setup_default_logger
 
@@ -74,10 +74,7 @@ if __name__ == "__main__":
         args.output_dir = os.path.dirname(os.path.realpath(__file__))
 
     if args.model_path is None:
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        args.model_path = os.path.join(
-            dir_path, "pretrained_model", "model_final_0.473.pt"
-        )
+        args.model_path = pkg_resources.resource_filename("guacamol_baselines", "smiles_lstm_hc/pretrained_model/model_final_0.473.pt")
 
     optimizer = SmilesRnnDirectedGenerator(
         pretrained_model_path=args.model_path,
