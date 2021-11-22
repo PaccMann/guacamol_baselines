@@ -1,10 +1,11 @@
 from pathlib import Path
 from typing import List, Optional
 import torch
-
-from smiles_lstm_ppo.ppo_generator import PPOMoleculeGenerator
-from smiles_lstm_ppo.rnn_model import SmilesRnnActorCritic
-from smiles_lstm_hc.rnn_utils import load_rnn_model
+import pkg_resources
+from os import path
+from .ppo_generator import PPOMoleculeGenerator
+from .rnn_model import SmilesRnnActorCritic
+from ..smiles_lstm_hc.rnn_utils import load_rnn_model
 from guacamol.scoring_function import ScoringFunction
 from guacamol.utils.chemistry import canonicalize_list
 from guacamol.goal_directed_generator import GoalDirectedGenerator
@@ -44,8 +45,10 @@ class PPODirectedGenerator(GoalDirectedGenerator):
     ) -> List[str]:
         cuda_available = torch.cuda.is_available()
         device = "cuda" if cuda_available else "cpu"
+        pkg_model_path = pkg_resources.resource_filename("guacamol_baselines", "smiles_lstm_ppo/pretrained_model/model_final_0.473.pt")
+        if not self.pretrained_model_path and path.exists(pkg_model_path):
+            self.pretrained_model_path = pkg_model_path
         model_def = Path(self.pretrained_model_path).with_suffix(".json")
-
         smiles_rnn = load_rnn_model(
             model_def, self.pretrained_model_path, device, copy_to_cpu=True
         )

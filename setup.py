@@ -3,8 +3,7 @@ import re
 import os
 import subprocess
 from pkg_resources import parse_requirements
-from setuptools import find_packages, setup
-from setuptools import setup, find_packages, Command
+from setuptools import find_packages, setup, Command
 from setuptools.command.bdist_egg import bdist_egg as _bdist_egg
 from setuptools.command.develop import develop as _develop
 from distutils.command.build import build as _build
@@ -115,7 +114,7 @@ setup(
     description="Baseline model implementations for guacamol benchmark adapted for PaccMann",
     packages=find_packages(),
     package_dir={"guacamol_baselines": "guacamol_baselines"},
-    package_data={"guacamol_baselines": ["data/guacamol*.smiles"]},
+    package_data={"guacamol_baselines": ["data/guacamol*.smiles", "smiles_lstm_hc/pretrained_model/model*.json", "smiles_lstm_hc/pretrained_model/model*.pt", "graph_mcts/*.p", "smiles_lstm_ppo/pretrained_model/model*.json", "smiles_lstm_ppo/pretrained_model/model*.pt"]},
     long_description=open("README.md").read(),
     url="https://github.com/PaccMann/guacamol_baselines.git",
     long_description_content_type="text/markdown",
