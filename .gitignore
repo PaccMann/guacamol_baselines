@@ -141,3 +141,5 @@ dmypy.json
 
 # PyCharm settings
 .idea/
+
+condaenv.*
