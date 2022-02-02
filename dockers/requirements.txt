@@ -1,11 +1,14 @@
-guacamol @ git+https://github.com/PaccMann/guacamol.git@0.5.4
+guacamol==0.5.4
 matplotlib==3.0.2
-torch>=1.0.0
+torch>=1.0
 loguru==0.5.3
 joblib==0.12.5
-numpy==1.18
+numpy>=1.16.5
 tqdm==4.26.0
 cython==0.29
 nltk==3.4.5
 flake8==3.5.0
-molsets @ git+https://github.com/molecularsets/moses.git@96c77d52c688dcac8e2962d78965175e7824c48c
+tensorflow
+keras
+h5py
+molsets @ git+https://github.com/PaccMann/moses.git@moses-version-mismatch-fix#egg=moses
