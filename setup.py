@@ -10,6 +10,7 @@ from distutils.command.build import build as _build
 import shutil
 
 SETUP_DIR = os.path.dirname(os.path.abspath(__file__))
+REQUIREMENTS = ["guacamol", "matplotlib", "torch", "joblib", "numpy", "tqdm", "cython", "nltk", "flake8"]
 
 
 class fetch_guacamol_datasets(Command):
@@ -89,15 +90,14 @@ class develop(_develop):
 vcs = re.compile(r"(git|svn|hg|bzr)\+")
 try:
     with open("dockers/requirements.txt") as fp:
-        VCS_REQUIREMENTS = [
+        REQUIREMENTS.extend([
             str(requirement)
             for requirement in parse_requirements(fp)
             if vcs.search(str(requirement))
-        ]
+        ])
 except FileNotFoundError:
     # requires verbose flags
     print("requirements.txt not found.")
-    VCS_REQUIREMENTS = []
 
 match = re.search(
     r'__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
@@ -118,7 +118,6 @@ setup(
     long_description=open("README.md").read(),
     url="https://github.com/PaccMann/guacamol_baselines.git",
     long_description_content_type="text/markdown",
-    extras_require={"vcs": VCS_REQUIREMENTS},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -131,15 +130,5 @@ setup(
         "fetch_guacamol_datasets": fetch_guacamol_datasets,
         "develop": develop,
     },
-    install_requires=[
-        "guacamol",
-        "matplotlib",
-        "torch",
-        "joblib",
-        "numpy",
-        "tqdm",
-        "cython",
-        "nltk",
-        "flake8",
-    ],
+    install_requires=REQUIREMENTS,
 )
