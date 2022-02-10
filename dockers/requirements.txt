@@ -11,4 +11,4 @@ flake8==3.5.0
 tensorflow
 keras
 h5py
-moses @ git+https://github.com/PaccMann/moses.git@moses-version-mismatch-fix#egg=moses
+moses @ git+https://github.com/PaccMann/moses.git@0.0.1
